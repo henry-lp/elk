@@ -459,7 +459,7 @@ public final class ElkMath {
     }
 
     /** Flatness. */
-    private static final double EPSILON = 1.0 * Math.pow(2, -MAXDEPTH - 1);
+    private static final double EPSILON = 1.0 * Math.pow(2, (double) (-org.eclipse.elk.core.math.ElkMath.MAXDEPTH) - 1);
 
     /**
      * Check if the control polygon of a Bezier curve is flat enough for recursive subdivision to

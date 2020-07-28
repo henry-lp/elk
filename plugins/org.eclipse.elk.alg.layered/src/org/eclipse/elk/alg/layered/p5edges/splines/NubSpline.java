@@ -414,9 +414,9 @@ public class NubSpline {
             for (int i = 0; i < dimNUBS; i++) {
                 knotVector.add(0.0);
             }
-            mySize = size + 1 - 2 * dimNUBS;
+            mySize = ((double) size + 1) - ((double) 2 * dimNUBS);
         } else {
-            mySize = size + 1;
+            mySize = (double) size + 1;
             final double ddim = (double) dimNUBS;
             minKnot = ddim / (mySize + 1);
             maxKnot = (mySize - ddim) / mySize;
