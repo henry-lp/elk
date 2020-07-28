@@ -446,7 +446,7 @@ public class FinalSplineBendpointsCalculator implements ILayoutProcessor<LGraph>
         } else {
             outdegree = 1;
         }
-        final int degreeDiff = (int) Math.signum(outdegree - indegree);
+        final int degreeDiff = ((int) (java.lang.Math.signum((float) outdegree - indegree)));
         final double centerYPos = ((yTargetAnchor + ySourceAnchor) / 2)
                 + (yTargetAnchor - ySourceAnchor) * (SLOPPY_CENTER_CP_MULTIPLIER * degreeDiff);
         

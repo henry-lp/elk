@@ -127,7 +127,7 @@ public class LayerSweepTypeDecider implements IInitializable {
             nsPortDummies.clear();
         }
 
-        double allPaths = pathsToRandom + pathsToHierarchical;
+        double allPaths = (double) pathsToRandom + pathsToHierarchical;
         double normalized = allPaths == 0 ? Double.POSITIVE_INFINITY : (pathsToRandom - pathsToHierarchical) / allPaths;
         return normalized >= boundary;
     }
