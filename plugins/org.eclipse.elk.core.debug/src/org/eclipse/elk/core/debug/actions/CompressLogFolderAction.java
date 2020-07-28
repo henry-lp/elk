@@ -169,55 +169,28 @@ public class CompressLogFolderAction extends Action {
      */
     private IStatus doZip(final List<ExecutionInfo> layoutRuns, final String zipFileName,
             final IProgressMonitor monitor) {
-        
-        FileOutputStream outFileStream = null;
         ZipOutputStream zipFileStream = null;
-        
-        try {
-            // Create an output stream for the zip file
-            outFileStream = new FileOutputStream(zipFileName);
-            zipFileStream = new ZipOutputStream(outFileStream);
-            
-            monitor.beginTask("Compressing log folders to " + zipFileName, layoutRuns.size());
-            
-            // Add an entry to represent the zip file's root folder
-            zipFileStream.putNextEntry(new ZipEntry("/"));
-            zipFileStream.closeEntry();
-            
-            // Process each execution info
-            for (ExecutionInfo layoutRun : layoutRuns) {
-                // Check for cancellation
-                if (monitor.isCanceled()) {
-                    return Status.CANCEL_STATUS;
-                } else {
-                    doZipLayoutRun(layoutRun, zipFileStream, monitor);
-                }
-            }
-            
-            // Return successful status code (note that the output stream is closed in the finally block below)
-            monitor.done();
-            return Status.OK_STATUS;
-            
-        } catch (Exception e) {
-            return new Status(
-                    IStatus.ERROR,
-                    ElkDebugPlugin.PLUGIN_ID,
-                    "Unable to compress log folders to " + zipFileName + ".",
-                    e);
-            
-        } finally {
-            if (zipFileStream != null) {
-                try {
-                    zipFileStream.close();
-                } catch (IOException e) {
-                    return new Status(
-                            IStatus.ERROR,
-                            ElkDebugPlugin.PLUGIN_ID,
-                            "Unable to compress log folders to " + zipFileName + ".",
-                            e);
-                }
-            }
-        }
+		try (java.io.FileOutputStream outFileStream = new java.io.FileOutputStream(zipFileName)) {
+			zipFileStream = new java.util.zip.ZipOutputStream(outFileStream);
+			monitor.beginTask("Compressing log folders to " + zipFileName, layoutRuns.size());
+			// Add an entry to represent the zip file's root folder
+			zipFileStream.putNextEntry(new java.util.zip.ZipEntry("/"));
+			zipFileStream.closeEntry();
+			// Process each execution info
+			for (org.eclipse.elk.core.debug.model.ExecutionInfo layoutRun : layoutRuns) {
+				// Check for cancellation
+				if (monitor.isCanceled()) {
+					return org.eclipse.core.runtime.Status.CANCEL_STATUS;
+				} else {
+					doZipLayoutRun(layoutRun, zipFileStream, monitor);
+				}
+			}
+			// Return successful status code (note that the output stream is closed in the finally block below)
+			monitor.done();
+			return org.eclipse.core.runtime.Status.OK_STATUS;
+		} catch (java.lang.Exception e) {
+			return new org.eclipse.core.runtime.Status(org.eclipse.core.runtime.IStatus.ERROR, org.eclipse.elk.core.debug.ElkDebugPlugin.PLUGIN_ID, ("Unable to compress log folders to " + zipFileName) + ".", e);
+		}
     }
     
     /**
