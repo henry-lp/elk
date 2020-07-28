@@ -261,7 +261,7 @@ public final class BarycenterHeuristic implements ICrossingMinimizationHeuristic
 
         if (stateOf(node).degree > 0) {
             // add a small random perturbation in order to increase diversity of solutions
-            stateOf(node).summedWeight += random.nextFloat() * RANDOM_AMOUNT - RANDOM_AMOUNT / 2;
+            stateOf(node).summedWeight += ((double) random.nextFloat() * (double) org.eclipse.elk.alg.layered.p3order.BarycenterHeuristic.RANDOM_AMOUNT)  - RANDOM_AMOUNT / 2;
             stateOf(node).barycenter = stateOf(node).summedWeight / stateOf(node).degree;
         }
     }

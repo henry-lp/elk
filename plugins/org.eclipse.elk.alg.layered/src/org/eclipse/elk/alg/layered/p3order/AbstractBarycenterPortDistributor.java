@@ -257,7 +257,7 @@ public abstract class AbstractBarycenterPortDistributor implements ISweepPortDis
             if (portSide == PortSide.EAST) {
                 if (barycenter < nodeIndexInLayer) {
                     // take a low value in order to have the port above
-                    portBarycenter[inLayerPort.id] = minBarycenter - barycenter;
+                    portBarycenter[inLayerPort.id] = (double) minBarycenter - (double) barycenter ;
                 } else {
                     // take a high value in order to have the port below
                     portBarycenter[inLayerPort.id] = maxBarycenter + (layerSize - barycenter);
@@ -265,7 +265,7 @@ public abstract class AbstractBarycenterPortDistributor implements ISweepPortDis
             } else if (portSide == PortSide.WEST) {
                 if (barycenter < nodeIndexInLayer) {
                     // take a high value in order to have the port above
-                    portBarycenter[inLayerPort.id] = maxBarycenter + barycenter;
+                    portBarycenter[inLayerPort.id] = (double) maxBarycenter + (double) barycenter ;
                 } else {
                     // take a low value in order to have the port below
                     portBarycenter[inLayerPort.id] = minBarycenter - (layerSize - barycenter);
@@ -306,7 +306,7 @@ public abstract class AbstractBarycenterPortDistributor implements ISweepPortDis
             // output ports
             // North: input ports < 0.0, output ports > 0.0
             // South: input ports > FLOAT_MAX / 2, output ports near zero
-            sum = port.getSide() == PortSide.NORTH ? 0.0f : absurdlyLargeFloat / 2f;
+            sum = (port.getSide() == PortSide.NORTH) ? 0.0f : (double) absurdlyLargeFloat / (double) 2.0F ;
         }
         return sum;
     }
