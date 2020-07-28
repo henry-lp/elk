@@ -81,7 +81,7 @@ public final class NodeRelativePortDistributor extends AbstractBarycenterPortDis
 
             // Iterate output ports in their natural order, that is north - east - south - west
             float incr = 1.0f / (outputCount + 1);
-            float pos = rankSum + incr;
+            float pos = (double) rankSum + (double) incr ;
             for (LPort port : node.getPorts(PortType.OUTPUT)) {
                 portRanks[port.id] = pos;
                 pos += incr;
@@ -98,4 +98,4 @@ public final class NodeRelativePortDistributor extends AbstractBarycenterPortDis
         return 1;
     }
 
-}
+		}

@@ -259,7 +259,7 @@ public class RandomGraphGenerator {
 
         case TRICONNECTED: {
             float p1 = random.nextFloat();
-            float p2 = 1.0f - p1;
+            float p2 = (double) 1.0F - (double) p1 ;
             generateTriconnectedGraph(graph, n, p1, p2, 0);
             break;
         }
@@ -711,7 +711,7 @@ public class RandomGraphGenerator {
                 case 0:
                     if (x < p1) {
                         mark = 1;
-                    } else if (x < p1 + p2) {
+                    } else if (x < ((double) p1 + (double) p2) ) {
                         mark = 2;
                     } else {
                         mark = 3;
@@ -719,7 +719,7 @@ public class RandomGraphGenerator {
                     break;
                 case 1:
                 case 2:
-                    if (x >= p1 + p2) {
+                    if (x >= ((double) p1 + (double) p2) ) {
                         mark = 3;
                     }
                     break;
@@ -782,21 +782,28 @@ public class RandomGraphGenerator {
         int[] vrt = new int[3 * n];
         int[] fst = new int[n + 1];
         List<HierarchyEdge> startEdges = new LinkedList<HierarchyEdge>();
-        HierarchyEdge actEdge, nextEdge;
-        int act, next, n1, n2, idc = 0;
+								org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.HierarchyEdge actEdge;
+								org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.HierarchyEdge nextEdge;
+								int act;
+								int next;
+								int n1;
+								int n2;
+								int idc = 0;
         boolean connected;
         // create the nodes
         for (int i = 0; i < n; ++i) {
             createNode(parent);
         }
-        int numberOfLayers = 0, totNumber = 0, realCount = 0;
+								int numberOfLayers = 0;
+								int totNumber = 0;
+								int realCount = 0;
         fst[0] = 0;
         for (ElkNode node : parent.getChildren()) {
             nnr[totNumber] = node;
             vrt[totNumber++] = 0;
             realCount++;
             float r = random.nextFloat();
-            if (totNumber == 1 && singleSource || realCount == n || r * r * n < 1) {
+            if (totNumber == 1 && singleSource || realCount == n || ((((double) r * (double) r)  * n) < 1)) {
                 fst[++numberOfLayers] = totNumber;
             }
         }
@@ -850,7 +857,7 @@ public class RandomGraphGenerator {
                     connected = !singleSource;
                     for (n1 = leftN[n2]; n1 <= rightN[n2] || !connected; n1++) {
                         float r = random.nextFloat();
-                        if (r < x1 / x2 || n1 > rightN[n2]) {
+                        if ((r < ((double) x1 / (double) x2) ) || n1 > rightN[n2]) {
                             next = (n1 <= rightN[n2] ? n1 : randomInt(leftN[n2], rightN[n2]));
                             act = n2;
                             nextEdge = new HierarchyEdge(next, act, idc++);
@@ -916,9 +923,6 @@ public class RandomGraphGenerator {
      * A helper class for creating hierarchical graphs.
      */
     private static class HierarchyEdge {
-
-        /** the head, tail and id. */
-        private int head, tail, id;
 
         /** the next edge. */
         private HierarchyEdge next;
@@ -1678,9 +1682,11 @@ public class RandomGraphGenerator {
      * @param node
      *            a node
      */
-    private void distributePorts(final ElkNode node) {
-        // count the ports on each side of the node
-        int northCount = 0, eastCount = 0, southCount = 0, westCount = 0;
+    private void distributePorts(final ElkNode node) {// count the ports on each side of the node
+										int northCount = 0;
+										int eastCount = 0;
+										int southCount = 0;
+										int westCount = 0;
         for (ElkPort port : node.getPorts()) {
             switch (port.getProperty(CoreOptions.PORT_SIDE)) {
             case NORTH:
@@ -1701,17 +1707,17 @@ public class RandomGraphGenerator {
         // make sure the node is big enough to contain all ports
         float portWidth = get(GeneratorOptions.PORT_WIDTH).floatVal(random);
         float portHeight = get(GeneratorOptions.PORT_HEIGHT).floatVal(random);
-        if (node.getWidth() < (northCount + 1) * (portWidth + PORT_SEPARATION)) {
-            node.setWidth((northCount + 1) * (portWidth + PORT_SEPARATION));
+        if (node.getWidth() < ((northCount + 1) * ((double) portWidth + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION))) {
+            node.setWidth((northCount + 1) * ((double) portWidth + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION));
         }
-        if (node.getWidth() < (southCount + 1) * (portWidth + PORT_SEPARATION)) {
-            node.setWidth((southCount + 1) * (portWidth + PORT_SEPARATION));
+        if (node.getWidth() < ((southCount + 1) * ((double) portWidth + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION))) {
+            node.setWidth((southCount + 1) * ((double) portWidth + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION));
         }
-        if (node.getHeight() < (eastCount + 1) * (portHeight + PORT_SEPARATION)) {
-            node.setHeight((eastCount + 1) * (portHeight + PORT_SEPARATION));
+        if (node.getHeight() < ((eastCount + 1) * ((double) portHeight + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION))) {
+            node.setHeight((eastCount + 1) * ((double) portHeight + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION));
         }
-        if (node.getHeight() < (westCount + 1) * (portHeight + PORT_SEPARATION)) {
-            node.setHeight((westCount + 1) * (portHeight + PORT_SEPARATION));
+        if (node.getHeight() < ((westCount + 1) * ((double) portHeight + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION))) {
+            node.setHeight((westCount + 1) * ((double) portHeight + (double) org.eclipse.elk.core.debug.grandom.generators.RandomGraphGenerator.PORT_SEPARATION));
         }
 
         // distribute the ports on each node side
@@ -1719,7 +1725,10 @@ public class RandomGraphGenerator {
         double eastDelta = node.getHeight() / (eastCount + 1);
         double southDelta = node.getWidth() / (southCount + 1);
         double westDelta = node.getHeight() / (westCount + 1);
-        double northPos = 0, eastPos = 0, southPos = 0, westPos = 0;
+										double northPos = 0;
+										double eastPos = 0;
+										double southPos = 0;
+										double westPos = 0;
         for (ElkPort port : node.getPorts()) {
             switch (port.getProperty(CoreOptions.PORT_SIDE)) {
             case NORTH:
@@ -1791,4 +1800,4 @@ public class RandomGraphGenerator {
         boolean evaluate(final ElkNode node1, final ElkNode node2);
     }
 
-}
+									}

@@ -250,7 +250,7 @@ public class BasicProgressMonitor implements IElkProgressMonitor {
             completedWork += work;
             doWorked(completedWork, totalWork, parentMonitor == null);
             if (parentMonitor != null && parentMonitor.currentChildWork > 0 && maxLevels != 0) {
-                parentMonitor.internalWorked(work / totalWork * parentMonitor.currentChildWork);
+                parentMonitor.internalWorked(((double) work / (double) totalWork)  * parentMonitor.currentChildWork);
             }
         }
     }
@@ -290,7 +290,7 @@ public class BasicProgressMonitor implements IElkProgressMonitor {
                 totalTime = (endTime - startTime) * NANO_FACT;
             }
             if (completedWork < totalWork) {
-                internalWorked(totalWork - completedWork);
+                internalWorked((double) totalWork - (double) completedWork );
             }
             doDone(parentMonitor == null, maxLevels);
             closed = true;
