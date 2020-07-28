@@ -579,7 +579,6 @@ public class CompactionTest {
 
         @Override
         public void applyElementPosition() {
-            hitbox.x = hitbox.x;
         }
 
         @Override
