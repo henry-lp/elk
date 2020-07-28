@@ -143,14 +143,14 @@ public final class ElkServicePlugin extends Plugin {
                 URL providerFile = bundle.getResource(
                         "/META-INF/services/" + ILayoutMetaDataProvider.class.getCanonicalName());
                 if (providerFile != null) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(providerFile.openStream()));
-                    
-                    // Read the class names of all implementations that we can find
-                    String line = reader.readLine();
-                    while (line != null) {
-                        providerClasses.add((Class<? extends ILayoutMetaDataProvider>) bundle.loadClass(line));
-                        line = reader.readLine();
-                    }
+					try (java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(providerFile.openStream()))) {
+						// Read the class names of all implementations that we can find
+						java.lang.String line = reader.readLine();
+						while (line != null) {
+							providerClasses.add(((java.lang.Class<? extends org.eclipse.elk.core.data.ILayoutMetaDataProvider>) (bundle.loadClass(line))));
+							line = reader.readLine();
+						} 
+					}
                 }
             } catch (Exception e) {
                 
